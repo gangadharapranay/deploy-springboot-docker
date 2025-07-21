@@ -1,9 +1,10 @@
 pipeline {
     agent {
         docker {
-          image 'maven:3.9.6-eclipse-temurin-21'
+            image 'maven:3.9.6-eclipse-temurin-21'
+            args '--platform linux/amd64'
         }
-      }
+    }
 
     environment {
         DOCKER_IMAGE = "springboot-app"
@@ -24,14 +25,18 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
+                // Only needed if you're not using docker-compose to build
+                sh "docker build -t ${DOCKER_IMAGE} ."
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose up -d --build'
+                script {
+                    // Assuming docker-compose.yml is in the same repo root
+                    sh 'docker-compose down || true'
+                    sh 'docker-compose up -d --build'
+                }
             }
         }
     }
