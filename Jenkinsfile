@@ -19,7 +19,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn -Dmaven.repo.local=target/.m2 clean package -DskipTests'
+                sh 'mvn -Dmaven.repo.local=target/.m2 clean install -DskipTests'
             }
         }
 
