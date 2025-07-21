@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.6-eclipse-temurin-21'
-            args '--platform linux/amd64'
+            args '-v $HOME/.m2:/root/.m2 --platform linux/amd64'
         }
     }
 
@@ -25,7 +25,6 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // Only needed if you're not using docker-compose to build
                 sh "docker build -t ${DOCKER_IMAGE} ."
             }
         }
@@ -33,7 +32,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Assuming docker-compose.yml is in the same repo root
                     sh 'docker-compose down || true'
                     sh 'docker-compose up -d --build'
                 }
