@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.6-eclipse-temurin-21'
-            args '-v $HOME/.m2:/root/.m2'
         }
     }
 
@@ -19,7 +18,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean install -DskipTests -Dmaven.repo.local=./.m2'
             }
         }
 
