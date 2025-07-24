@@ -1,34 +1,69 @@
+#version: '3.8'
+#
+#services:
+#  postgres:
+#    image: postgres:13
+#    container_name: postgres-db
+#    restart: always
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_DB: tharundb
+#    volumes:
+#      - postgres-data:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - app-network
+#
+#  app:
+#    build: .
+#    container_name: springboot-app
+#    restart: always
+#    depends_on:
+#      - postgres
+#    ports:
+#      - "8080:8084"
+#    networks:
+#      - app-network
+#
+#volumes:
+#  postgres-data:
+#
+#networks:
+#  app-network:
+
+
+
+
+
+
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:13
-    container_name: postgres-db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: tharundb
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - app-network
-
   app:
     build: .
     container_name: springboot-app
-    restart: always
-    depends_on:
-      - postgres
     ports:
       - "8080:8084"
-    networks:
-      - app-network
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tharundb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  db:
+    image: postgres:14
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: tharundb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  postgres-data:
-
-networks:
-  app-network:
+  postgres_data:

@@ -21,4 +21,9 @@ public class UserController {
     public List<Student> getAllUsers(){
         return studentService.getAllUsers();
     }
+
+    @GetMapping("/sample")
+    public String getSampleResponse(){
+        return "Yes I am working";
+    }
 }
