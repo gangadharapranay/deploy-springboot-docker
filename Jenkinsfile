@@ -1,8 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9.6-eclipse-temurin-21'
-            args '-v $HOME/.m2:/root/.m2 --platform linux/amd64'
+            image 'openjdk:21-jdk-slim'
         }
     }
 
@@ -13,13 +12,13 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/gangadharapranay/test.git'
+                git branch: 'main', url: 'https://github.com/gangadharapranay/deploy-springboot-docker.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn -Dmaven.repo.local=target/.m2 clean install -DskipTests'
+                sh 'mvn clean install -DskipTests'
             }
         }
 
