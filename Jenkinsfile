@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.6-eclipse-temurin-21'
-        }
-    }
+    agent any
 
     environment {
         DOCKER_IMAGE = "springboot-app"
@@ -17,6 +13,11 @@ pipeline {
         }
 
         stage('Build') {
+            agent {
+             docker {
+                 image 'maven:3.9.6-eclipse-temurin-21'
+             }
+            }
             steps {
                 sh 'mvn clean install -DskipTests -Dmaven.repo.local=./.m2'
             }
