@@ -24,6 +24,6 @@ public class UserController {
 
     @GetMapping("/sample")
     public String getSampleResponse(){
-        return "Yes I am working now";
+        return "Yes I am working now then";
     }
 }
