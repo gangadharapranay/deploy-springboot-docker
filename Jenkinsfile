@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'openjdk:21-jdk-slim'
+            image 'maven:3.9.6-eclipse-temurin-21'
         }
     }
 
